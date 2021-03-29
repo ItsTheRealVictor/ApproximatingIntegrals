@@ -1,10 +1,9 @@
-import math
 import sympy as sp
 
 x = sp.symbols('x')
 
 # defining the function and the limits of integration
-function = ((-x**2) + 49) # if this program works correctly, you will be able to change this function and its bounds to whatever you want. 
+function = (1/ (x+1)) # if this program works correctly, you will be able to change this function and its bounds to whatever you want. 
 upperBound = 5
 lowerBound = 1
 n = 10 + 1 #this is the number of trapezoids. We take the area of each one, add them up, and divide by .5(delta_x). The more trapezoids you use, the more accurate your approximation becomes
@@ -17,17 +16,16 @@ def sequence(n):
         return n
     else:
         return(delta_x + sequence(n - 1))
-nterms = n
 deltaTerms = []
 
 # this adds numbers from the sequence to the deltaTerms list. Later, we will plug those values into the function.
-if nterms <= 1:
+if n <= 1:
     print("no")
 else:
-    for i in range(nterms + 1):
-        deltaTerms.append(sequence(i))
+    for i in range(n + 1):
+        deltaTerms.append(round(sequence(i), 1))
 deltaTerms.pop(0)
-
+print(deltaTerms)
 
 # this determines the coefficient values of the trapezoidal and simpson's approximations. We will multiply these values by the function values, later to be summed and multplied by .5(delta_x). This achieves our final approximations.
 
@@ -45,7 +43,6 @@ for i, j in enumerate(trapCoefficients):
     simpsonsCoefficients.append(2)
   else:
     simpsonsCoefficients.append(4)
-
 
 #This plugs the delta_x sequence values into our actual function.
 actualFunctionVals = []
@@ -80,10 +77,3 @@ print("Simpson's approximate: " + str(round(float(simpApproximation), 4)))
 print("Exact value: " + str(round(float(actual), 4)))
 print("Trapezoidal percent difference: " + str(round(float(percentDiff(trapApproximation, actual)), 2)) + " percent.")
 print("Simpson's percent difference: " + str(round(float(percentDiff(simpApproximation, actual)), 2)) + " percent.")
-
-"""
-Future features of this program
-1) Add graphs of the function with MatPlotLib. The user can visualize what the function looks like and how many trapezoids are being used to calculate the approximation
-2) Add the data to an excel spreadsheet using openPyXL.
-3) Add GUI functionality. The user will be able to enter a function of x, the lower/upper bounds, and the number of trapezoids. It will calculate and display the same data you see in the output of this program. 
-"""
